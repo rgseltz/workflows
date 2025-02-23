@@ -35,7 +35,6 @@ jobs:
           jq -c '.items[] | { 
               video_id: .snippet.resourceId.videoId,
               video_title: .snippet.title,
-              playlist_id: .snippet.playlistId,
               playlist_name: .snippet.channelTitle,
               published_at: .snippet.publishedAt 
           }' playlist.json > videos.json
