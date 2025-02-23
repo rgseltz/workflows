@@ -39,7 +39,24 @@ jobs:
               playlist_name: .snippet.channelTitle,
               published_at: .snippet.publishedAt 
           }' playlist.json > videos.json
-          
+
+      - name: Verify and Debug videos.json
+        run: |
+          if [ -f videos.json ]; then
+            echo "videos.json exists."
+            echo "File size:"
+            ls -lh videos.json
+            echo "Preview (first 5 lines):"
+            head -n 5 videos.json
+            echo "Number of entries:"
+            jq '. | length' videos.json
+            echo "Validating JSON format..."
+            jq empty videos.json && echo "JSON is valid." || echo "Error: JSON is invalid!"
+          else
+            echo "Error: videos.json was not created!"
+            exit 1
+          fi
+
       - name: Push to Port.io
         run: |
           while read -r video; do
