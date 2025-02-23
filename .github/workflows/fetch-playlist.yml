@@ -3,6 +3,8 @@ name: Fetch YouTube Playlist
 on:
   workflow_dispatch:  # Allows manual execution
 
+permissions: write
+
 jobs:
   fetch-playlist:
     runs-on: ubuntu-latest
