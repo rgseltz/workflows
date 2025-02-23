@@ -32,7 +32,9 @@ jobs:
 
       - name: Extract Video Data
         run: |
-          jq --arg playlistId "${{ secrets.YOUTUBE_PLAYLIST_ID }}" -c '.items[] | { 
+          PLAYLIST_ID="${{ secrets.YOUTUBE_PLAYLIST_ID }}"
+          echo "Using playlist ID: ${PLAYLIST_ID:0:4}****"
+          jq --arg playlistId "$PLAYLIST_ID" -c '.items[] | { 
               video_id: .snippet.resourceId.videoId,
               video_title: .snippet.title,
               playlist_name: .snippet.channelTitle,
