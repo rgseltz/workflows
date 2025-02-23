@@ -32,12 +32,12 @@ jobs:
 
       - name: Extract Video Data
         run: |
-          jq -c '.items[] | { 
+          jq --arg playlistId "${{ secrets.YOUTUBE_PLAYLIST_ID }}" -c '.items[] | { 
               video_id: .snippet.resourceId.videoId,
               video_title: .snippet.title,
               playlist_name: .snippet.channelTitle,
               published_at: .snippet.publishedAt,
-              playlist_id: ${{ secrets.YOUTUBE_PLAYLIST_ID }}
+              playlist_id: $playlistId
           }' playlist.json > videos.json
 
       - name: Verify and Debug videos.json
