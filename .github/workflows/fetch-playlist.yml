@@ -1,0 +1,27 @@
+name: Fetch YouTube Playlist
+
+on:
+  workflow_dispatch:  # Allows manual execution
+
+jobs:
+  fetch-playlist:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Fetch YouTube Playlist Data
+        run: |
+          curl --location 'https://www.googleapis.com/youtube/v3/playlistItems?key=${{ secrets.YOUTUBE_API_KEY }}&playlistId=${{ secrets.YOUTUBE_PLAYLIST_ID }&maxResults=50&part=contentDetails&part=snippet'
+          
+      - name: Print Response (Debugging)
+        run: cat playlist.json
+
+      - name: Commit & Push Results
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
+          git add playlist.json
+          git commit -m "Updated YouTube Playlist Data" || echo "No changes to commit"
+          git push
