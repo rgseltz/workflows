@@ -3,7 +3,8 @@ name: Fetch YouTube Playlist
 on:
   workflow_dispatch:  # Allows manual execution
 
-permissions: write
+permissions: 
+  contents: write
 
 jobs:
   fetch-playlist:
