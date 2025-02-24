@@ -59,6 +59,13 @@ jobs:
             exit 1
           fi
 
+      - name: Debugging Show videos.json before sending
+        run: |
+         echo "Sending this data to Port:"
+         cat videos.json
+         echo "Number of entries in videos.json:"
+         jq '. | length' videos.json
+      
       - name: Push to Port.io
         run: |
           while read -r video; do
