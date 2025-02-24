@@ -32,11 +32,15 @@ jobs:
 
       - name: Extract Video Data
         run: |
-          jq -c '.items[] | { 
-              playlist_name: .snippet.channelTitle,
-              published_at: .snippet.publishedAt,
-              video_title: .snippet.title,
-              video_id: .snippet.resourceId.videoId
+          jq -c '.items[] | {
+              identifier: .snippet.resourceId.videoId,
+              title: .snippet.title,
+              properties: {
+                playlist_name: .snippet.channelTitle,
+                published_at: .snippet.publishedAt,
+                video_title: .snippet.title,
+                video_id: .snippet.resourceId.videoId
+            }
           }' playlist.json > videos.json
 
       - name: Verify and Debug videos.json
