@@ -33,10 +33,10 @@ jobs:
       - name: Extract Video Data
         run: |
           jq -c '.items[] | { 
-              video_id: .snippet.resourceId.videoId,
-              video_title: .snippet.title,
               playlist_name: .snippet.channelTitle,
               published_at: .snippet.publishedAt,
+              video_title: .snippet.title,
+              video_id: .snippet.resourceId.videoId
           }' playlist.json > videos.json
 
       - name: Verify and Debug videos.json
