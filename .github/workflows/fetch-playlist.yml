@@ -58,23 +58,11 @@ jobs:
             echo "Error: videos.json was not created!"
             exit 1
           fi
-      - name: Extract Video Data
-        run: |
-          PLAYLIST_ID="${{ secrets.YOUTUBE_PLAYLIST_ID }}"
-          echo "Using Playlist ID: $PLAYLIST_ID"  
-          jq --arg playlistId "$PLAYLIST_ID" -c '.items[] | { 
-          video_id: .snippet.resourceId.videoId,
-          video_title: .snippet.title,
-          playlist_name: .snippet.channelTitle,
-          published_at: .snippet.publishedAt,
-          playlist_id: $playlistId
-          }' playlist.json > videos.json
-
 
       - name: Push to Port.io
         run: |
           while read -r video; do
-            curl -X POST "https://api.getport.io/v1/entities/youtube_video" \
+            curl -X POST "https://api.getport.io/v1/blueprints/youtube/entities" \
               -H "Authorization: Bearer ${{ secrets.PORT_API_KEY }}" \
               -H "Content-Type: application/json" \
               -d "$video"
